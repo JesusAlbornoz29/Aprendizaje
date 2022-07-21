@@ -1,0 +1,412 @@
+/*
+    Que es Sass y CSS?
+        CSS nos permite aplicar estilo al HTML
+        SASS es un lenguaje que se convierte (compila) en CSS
+        SCSS es un lenguaje que se convierte (complia) en CSS
+
+    Que  entiendo por SASS?
+        SASS es un lenguaje que se convierte (compila) en CSS
+
+    Como se usa SASS?
+        Creamos un archivo SASS y lo conviertes (compilas) con herramientas.
+
+    Como compila SASS con CSS?
+        Puedes hacerlo de multiples formas::after
+            1 Herramientas como Prepros MUY FACIL https://youtu.be/tArtLYlq9ws
+            2 Consola con NodeJS
+            3 Sistemas de Bundling como Webpack
+            4 Sistemas de Task Runner como Grunt
+
+    Como se escribe variables en SASS?
+        Recuerda:
+            1 declararmos (creamos) la variable
+            2 Usamos la variable
+            3 Puedes ponerle el nombre que quieras pero usa "sake-case"
+            4 Si no sabes de nomenclaturas https://youtu.be/lhEJkeCJ3As
+*/
+
+$negro : black; //Declaramos la variable
+
+a{
+    color: $negro; //Usamos la variable
+}
+
+p{
+    background-color: $negro; //Usamos la variable
+}
+
+/*Que pasa cuando tenemos muchas variables?*/
+
+$color-negro: black;
+$color-azul: blue;
+$color-blanco: white;
+$fuente-normal: Verdana;
+$fuente-titulo : Helvetica;
+/*Aqui tenemos muchas variables y tenemos que repetri color, fuente*/
+
+header{
+    color: $color-negro;
+    font-family: $fuente-normal;
+}
+h1{
+    background: $color-blanco;
+    font-family: $fuente-titulo;
+}
+
+/* Vamos a ser organizados y guardar todas las variables en una lista de variables.
+        1 Una lista de variables es un Array
+        2 Usaremos map-get() para usar las variables
+*/
+
+$colores: (
+    "negro" : black,
+    "blanco" : white,
+);
+
+$fuentes : (
+    "normal" : verdana,
+    "titulo" : helvetica,
+);
+
+header{
+    color: map-get( $colores, "negro" );
+    font-family: map-get( $fuentes , "normal" );
+}
+
+h1 {
+    background: map-get($colores, "blanco");
+    font-family: map-get($fuentes , "titulo" );
+}
+    
+
+/*Mixin sin Argumenos. Recuerda:
+    1 Crear el mixin
+    2 Usar el mixi
+    3 Si no hay argumetos podemos no oner os "()"
+*/
+
+
+//Creamos el mixin con "()"
+@mixin  nombreMixin () {
+    background: black;
+}
+
+header{
+    @include nombreMixin(); // Aqui Usamos el mixin con ()
+}
+
+// Creamos el mixin sin "()" 
+
+@mixin otroMixin {
+    background: black;    
+}
+
+header {
+    @include otroMixin; // Aqui Usamos el otroMixin sin ()
+}
+
+/*
+    Mixi con Argumenos.
+        1 siempre con los "()"
+        2 Recuerda que los argumetos son como las "variables"
+*/
+
+/* Mixin con Solo 1 argumento */
+@mixin nombre ( $argumento1 ){ 
+    color: $argumento1
+}
+
+p{
+    @include nombre(black);
+}
+
+
+/* Mixin con mas de 1 argumento */
+@mixin nombre ( $argumento1 , $argumento2 , $argumento3) {
+    color : $argumento1;
+    font-weight: $argumento2;
+    font-size: $argumento3;
+}
+
+p{
+    @include nombre(black, bold, 2em)
+}
+
+
+/* Mixin con Solo 1 argumento */
+
+@mixin nombre ( $argumento1 : red){
+    color: $argumento1;
+}
+
+p {
+    @include nombre()
+}
+/*Sin no le doy un valor al argumento automaticamente queda rojo*/
+
+
+/*
+    Mixin con la Regla @content
+        1 Nos permite introducir multiples propiedades CSS dentro de un mixin
+        2 Muy usado para Responsive Desig
+*/
+
+@mixin movil () {
+    @media screen and (max-width: 480px) {
+        @content;
+    }
+    
+}
+
+p{
+    font-size: 4em;
+
+    @include movil(){
+        font-size: 2em;
+    }
+}
+
+/*
+    Cuando no tenemos un mixin tenemos que:
+        1 Repetir varias veces las mismas propiedades
+        2 Nos olvidamos de ponerlas en orden
+        3 Escribimos varias lineas por etiqueta
+        4 Mas probabilidad de equivocarte al escribir
+*/
+
+main{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+section{
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+
+/* Si usamos un mixin */
+
+/*Mix para flex*/
+
+@mixin flexible ( $dis, $direction, $corte, $just, $align ){
+    display: $dis;
+    flex-flow: $direction $corte;
+    justify-content: $just;
+    align-items: $align;    
+}
+
+main{
+    @include flexible(flex, row, nowrap, center, center);
+}
+
+section{
+    @include flexible(flex, column, nowrap, flex-start, flex-start );
+}
+
+
+/*Mix Para GRID*/
+
+main{
+    display: grid;
+    grid-template-columns: repeat( 4, 1fr);
+    gap: 1em;
+}
+
+section{
+    display: grid;
+    grid-template-columns: repeat( 3, 1fr);
+    gap: 2em;
+}
+
+
+/* Y con mixin */
+
+@mixin grid  ( $columnas, $espacio){
+    display: grid;
+    grid-template-columns: repeat( $columnas, 1fr);
+    gap: $espacio;
+    
+    @media screen and (max-width:480px) {
+        grid-template-columns: 1fr;
+        gap: 0em;
+    }
+}
+
+main{
+    @include grid(4, 1em)
+}
+section{
+    @include grid(2, 2em)
+}
+
+
+/*Mixin Con RESPONSIVE DESIGN*/
+
+article{
+    width: 25%;
+}
+
+@media screen and (max-width: 768px) {
+    article{
+        width: 50%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    article{
+        width: 100%;
+    }
+}
+
+/*Asi se hace con Mixins*/
+
+@mixin mv ( $medida:480px ) {
+    @media screen and (max-width: $medida ) {
+        @content;
+    }
+}
+
+article{
+    width: 25%;
+    @include mv(768px){width: 50%;}
+    @include mv() {width: 100%;}
+}
+
+/*
+    Como crear tu propio Mixin: Ejemplo con Neomorphismo
+        Detecta cuando siempre usas las mismas propiedades
+        Adapta tu mixin a tu forma de maquetar
+*/
+
+/*Neomofrismo sin mixin*/
+
+article {
+    border-radius: 50px;
+    background: #e0e0e0;
+    box-shadow: 21px 21px 42px #e0e0e0, -21px -21px 42px #ffffff;
+}
+
+section{
+    border-radius: 20px;
+    background: #e0e0e0;
+    box-shadow: 10px 10px 20px #bebebe, -21px -21px 20px #ffffff;
+}
+
+/*Asi quedaria con mixins */
+
+@mixin neo ( $radius, $eje ) {
+    border-radius: $radius;
+    background: #e0e0e0;
+    box-shadow: $eje $eje ($eje*2) #e0e0e0,
+        (-$eje) (-$eje) ($eje*2) #ffffff;
+}
+
+article{
+    @include neo( 50px, 21px );
+}
+
+section{
+    @include neo( 20px, 10px );
+}
+
+/*Anidacion y conector &*/
+/*
+Anidacion (Nesting) - Como anidar en SCSS?
+Ejemplo sin Anidacion
+*/
+
+header {
+    color: black;
+}
+
+header h1 {
+    color: red;
+}
+
+
+
+/*Ejemplo con Aidacion*/
+
+header {
+    color:black;
+    
+    h1{
+        color: red;
+    }
+    nav {
+        @include flex()
+    }
+}
+
+/*Que significa & e SCSS?
+    Aniade el selectro "padre" cuando anidamos
+*/
+
+a{
+    color: black;
+}
+a:hover{
+    color: red;
+}
+a:active{
+    color: aqua;
+}
+a:visited{
+    color: pink;
+}
+
+/*Ejemplo con Selector & y Anidacion*/
+a{
+    color: black;
+    &:hover {color: red;}
+    &:active {color:aqua;}
+    &:visited {color:pink;}
+
+}
+
+
+/* Que nombre pongo le una clase CSS?
+        En principio puedes poner cualquier nombre peeeero mejor si seguimos unas reglas o una metodologia
+
+    Que metodologia CSS usar?
+        Existen muchas: BEM CSS, SUIT CSS, CUBE CSS
+
+    Que significa BEM CSS?
+        Es una metodologia que define un bloque, elemento y modificador
+
+    Que es BEM en Sass?
+        Pues adaptamos los selectores de BEM gracias a la anidacion y el selector &
+
+    !!Dame un truco para usar BEM en SASS!!
+        Descarga BEM Helper para VSCode
+*/
+
+/* Ejemplo de BEM sin Anidar*/
+
+.header{
+    color: black;
+}
+
+.header__h1{
+    color:pink;
+}
+.header__nav{
+    color: red;
+}
+
+/* Ejemplo de BEM con Anidacion y Selector & */
+.header{
+    color:black;
+
+    &__h1{
+        color: pink;
+    }
+    &__nav{
+        color: red;
+    }
+}

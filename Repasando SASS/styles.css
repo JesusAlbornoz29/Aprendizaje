@@ -1,0 +1,301 @@
+/*
+    Que es Sass y CSS?
+        CSS nos permite aplicar estilo al HTML
+        SASS es un lenguaje que se convierte (compila) en CSS
+        SCSS es un lenguaje que se convierte (complia) en CSS
+
+    Que  entiendo por SASS?
+        SASS es un lenguaje que se convierte (compila) en CSS
+
+    Como se usa SASS?
+        Creamos un archivo SASS y lo conviertes (compilas) con herramientas.
+
+    Como compila SASS con CSS?
+        Puedes hacerlo de multiples formas::after
+            1 Herramientas como Prepros MUY FACIL https://youtu.be/tArtLYlq9ws
+            2 Consola con NodeJS
+            3 Sistemas de Bundling como Webpack
+            4 Sistemas de Task Runner como Grunt
+
+    Como se escribe variables en SASS?
+        Recuerda:
+            1 declararmos (creamos) la variable
+            2 Usamos la variable
+            3 Puedes ponerle el nombre que quieras pero usa "sake-case"
+            4 Si no sabes de nomenclaturas https://youtu.be/lhEJkeCJ3As
+*/
+a {
+  color: black;
+}
+
+p {
+  background-color: black;
+}
+
+/*Que pasa cuando tenemos muchas variables?*/
+/*Aqui tenemos muchas variables y tenemos que repetri color, fuente*/
+header {
+  color: black;
+  font-family: Verdana;
+}
+
+h1 {
+  background: white;
+  font-family: Helvetica;
+}
+
+/* Vamos a ser organizados y guardar todas las variables en una lista de variables.
+        1 Una lista de variables es un Array
+        2 Usaremos map-get() para usar las variables
+*/
+header {
+  color: black;
+  font-family: verdana;
+}
+
+h1 {
+  background: white;
+  font-family: helvetica;
+}
+
+/*Mixin sin Argumenos. Recuerda:
+    1 Crear el mixin
+    2 Usar el mixi
+    3 Si no hay argumetos podemos no oner os "()"
+*/
+header {
+  background: black;
+}
+
+header {
+  background: black;
+}
+
+/*
+    Mixi con Argumenos.
+        1 siempre con los "()"
+        2 Recuerda que los argumetos son como las "variables"
+*/
+/* Mixin con Solo 1 argumento */
+p {
+  color: black;
+}
+
+/* Mixin con mas de 1 argumento */
+p {
+  color: black;
+  font-weight: bold;
+  font-size: 2em;
+}
+
+/* Mixin con Solo 1 argumento */
+p {
+  color: red;
+}
+
+/*Sin no le doy un valor al argumento automaticamente queda rojo*/
+/*
+    Mixin con la Regla @content
+        1 Nos permite introducir multiples propiedades CSS dentro de un mixin
+        2 Muy usado para Responsive Desig
+*/
+p {
+  font-size: 4em;
+}
+@media screen and (max-width: 480px) {
+  p {
+    font-size: 2em;
+  }
+}
+
+/*
+    Cuando no tenemos un mixin tenemos que:
+        1 Repetir varias veces las mismas propiedades
+        2 Nos olvidamos de ponerlas en orden
+        3 Escribimos varias lineas por etiqueta
+        4 Mas probabilidad de equivocarte al escribir
+*/
+main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+/* Si usamos un mixin */
+/*Mix para flex*/
+main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+
+/*Mix Para GRID*/
+main {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1em 1fr 1em 1fr 1em 1fr;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1em;
+}
+
+section {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 2em 1fr 2em 1fr;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2em;
+}
+
+/* Y con mixin */
+main {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1em 1fr 1em 1fr 1em 1fr;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1em;
+}
+@media screen and (max-width: 480px) {
+  main {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+    gap: 0em;
+  }
+}
+
+section {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 2em 1fr;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2em;
+}
+@media screen and (max-width: 480px) {
+  section {
+    -ms-grid-columns: 1fr;
+    grid-template-columns: 1fr;
+    gap: 0em;
+  }
+}
+
+/*Mixin Con RESPONSIVE DESIGN*/
+article {
+  width: 25%;
+}
+
+@media screen and (max-width: 768px) {
+  article {
+    width: 50%;
+  }
+}
+@media screen and (max-width: 480px) {
+  article {
+    width: 100%;
+  }
+}
+/*Asi se hace con Mixins*/
+article {
+  width: 25%;
+}
+@media screen and (max-width: 768px) {
+  article {
+    width: 50%;
+  }
+}
+@media screen and (max-width: 480px) {
+  article {
+    width: 100%;
+  }
+}
+
+/*
+    Como crear tu propio Mixin: Ejemplo con Neomorphismo
+        Detecta cuando siempre usas las mismas propiedades
+        Adapta tu mixin a tu forma de maquetar
+*/
+/*Neomofrismo sin mixin*/
+article {
+  border-radius: 50px;
+  background: #e0e0e0;
+  -webkit-box-shadow: 21px 21px 42px #e0e0e0, -21px -21px 42px #ffffff;
+          box-shadow: 21px 21px 42px #e0e0e0, -21px -21px 42px #ffffff;
+}
+
+section {
+  border-radius: 20px;
+  background: #e0e0e0;
+  -webkit-box-shadow: 10px 10px 20px #bebebe, -21px -21px 20px #ffffff;
+          box-shadow: 10px 10px 20px #bebebe, -21px -21px 20px #ffffff;
+}
+
+/*Asi quedaria con mixins */
+article {
+  border-radius: 50px;
+  background: #e0e0e0;
+  -webkit-box-shadow: 21px 21px 42px #e0e0e0, -21px -21px 42px #ffffff;
+          box-shadow: 21px 21px 42px #e0e0e0, -21px -21px 42px #ffffff;
+}
+
+section {
+  border-radius: 20px;
+  background: #e0e0e0;
+  -webkit-box-shadow: 10px 10px 20px #e0e0e0, -10px -10px 20px #ffffff;
+          box-shadow: 10px 10px 20px #e0e0e0, -10px -10px 20px #ffffff;
+}
+
+/*Anidacion y conector &*/
+/*
+Anidacion (Nesting) - Como anidar en SCSS?
+Ejemplo sin Anidacion
+*/
