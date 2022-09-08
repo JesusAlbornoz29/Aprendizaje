@@ -1,5 +1,5 @@
-
--- EJERCICIO 1 DE movies_db
+-- //////////////////////////////////////////////////////////////movies_db/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-- EJERCICIO 1 DE MOVIES_DB
 
 -- SELECT 
 -- 1 MOSTRAR TODOS LOS REGISTROS DE LA TABLA DE MOVIES.
@@ -25,7 +25,6 @@ select first_name as nombre, last_name as apellido from actors where first_name 
 -- 9 MOSTRAR EL TITULO DE LAS PELICULAS QUE SALIERON ENTRE EL '2004-01-01' Y '2008-12-31'
 select title as titulo, release_date as fecha from movies where release_date between '2004-01-01' and '2008-12-31' order by release_date asc;
 
--- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 -- EJERICIO 2
 -- CONSULTAS
 -- ALIAS, LIMIT Y OFFSET
@@ -40,8 +39,6 @@ select title as titulo, rating, awards as preimios, release_date as fecha from m
 -- 5 OBTENER EL LISTADO DE TODOS LOS ACTORES. QUITAR LAS COLUMNAS DE FECHAS Y PELICULA FAVORITA, ADEMAS TRADUCIR LOS NOMBRES DE LAS COLUMNAS.
 select first_name as nombre, last_name as apellido from actors;
 
-
--- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 -- EJERCICIO 3
 -- 1 cuantas peliculas hay?
 select count(id) from movies;
@@ -54,8 +51,8 @@ select genre_id, count(id) from movies group by genre_id;
 -- 5 de la consulta anterior, listar solo aquellos generos que tengan como suma de premios un numero mayor a 5
 select genre_id, count(id),rating from movies group by genre_id having rating > 5;
 
--- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+-- ////////////////////////////////////////////////////////////////////////////////////Emarket/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-- BASE DE DATOS EMARKET
 -- Consultas queries XL parte I - GROUP BY
 -- CONSIGNAS 
 -- CLIENTES
@@ -97,65 +94,45 @@ select PrecioUnitario from facturadetalle order by PrecioUnitario desc limit 1;
 -- CONSULTAS QUERIES XL PARTE II - JOIN
 
 -- 1 GENERAR UN LISTADO DE TODAS LAS FACTURAS DEL EMPLEADO 'BUCHANAN'
+select *
+from facturas 
+inner join empleados 
+on facturas.EmpleadoID = empleados.EmpleadoID
+where empleados.Apellido = 'Buchanan';
 -- 2 GENERAR UN LISTADO CON TODOS LOS CAMPOS DE LAS FACTURAS DEL CORREO 'Speedy Express'
+select * 
+from facturas
+inner join correos
+on correos.CorreoID = facturas.EnvioVia
+where correos.Compania = 'Speedy Express';
 -- 3 GENERAR UN LISTADO DE TODAS LAS FACTURAS CON EL NOMBRE Y APELLIDO DE LOS EMPLEADOS 
--- 4 MONTAS UN LISTADO DE LAS FACTURAS DE TODOS LOS CLIENTES "Owner" Y PAIS DE ENVIO "USA"
+select facturas.FacturaID, empleados.Nombre, empleados.Apellido
+from facturas
+inner join empleados
+on facturas.EmpleadoID = empleados.EmpleadoID;
+-- 4 MOSTRAR UN LISTADO DE LAS FACTURAS DE TODOS LOS CLIENTES "Owner" Y PAIS DE ENVIO "USA"
+select *
+from facturas
+inner join clientes
+on facturas.ClienteID = clientes.ClienteID
+where clientes.titulo = 'Owner' and clientes.Pais = 'USA';
 -- 5 MOSTRAR TODOS LOS CAMPOS DE LAS FACTURAS DEL EMPLEADO CUYO APELLIDO SEA 'Leverling' o que incluyan el producto id ='42'
+select  *
+from facturas
+inner join empleados
+on facturas.EmpleadoID = empleados.EmpleadoID
+inner join facturadetalle
+on facturas.FacturaID = facturadetalle.FacturaID
+where empleados.Apellido = 'Leverling' 
+or facturadetalle.ProductoID = 42 ;
 -- 6 MOSTRAR TODOS LOS CAMPOS DE LAS FACTURAS DEL EMPLEADO CUYO APELLIDO SEA 'Leverling' y que incluya los productos id = '80' o '42'
 -- 7 GENERAR UN LISTADO CON LOS CINCO MEJORES CLIENTES, SEGUN SUS IMPORTES DE COMPRAS TOTAL (PrecioUnitaro * Cantidad).
 -- 8 GENERAR UN LISTADO DE FACTURAS, CON LOS CAMPOS ID, NOMBRE Y APELLIDO DEL CLIENTE, FECHA DE FACTURA, PAIS DE ENVIO, TOTAL, ORDENADO EDE MANERA DESCENDENTE POR FECHA DE FACTURA Y LIMITADO A 10 FILAS
 
 
-
-
-
-
-
 -- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
--- DATA BASE SPOTYFI
--- Realizar los siguientes informes:
-
--- 1 Listar las canciones que poseen la letra “z” en su título.
-select titulo from cancion ;
--- 2 Listar las canciones que poseen como segundo carácter la letra “a” y como último, la letra “s”.
--- 3 Mostrar la playlist que tiene más canciones, renombrando las columnas poniendo mayúsculas en la primera letra, los tildes correspondientes y agregar los espacios entre palabras.
--- 4 En otro momento se obtuvo un listado con los 5 usuarios más jóvenes, obtener un listado de los 10 siguientes.
--- 5 Listar las 5 canciones con más reproducciones, ordenadas descendentemente.
--- 6 Generar un reporte de todos los álbumes ordenados alfabéticamente.
--- 7 Listar todos los álbumes que no tengan imagen, ordenados alfabéticamente.
--- 8 Insertar un usuario nuevo con los siguientes datos (tener en cuenta las relaciones):
--- a) nombreusuario: nuevousuariodespotify@gmail.com
-
--- b) Nombre y apellido: Elmer Gomez
-
--- c) password: S4321m
-
--- d) Fecha de nacimiento: 15/11/1991
-
--- e) Sexo: Masculino
-
--- f) Código Postal: B4129ATF
-
--- g) País: Colombia
-
--- 9 Eliminar todas las canciones de género “pop”.
--- 10 Editar todos los artistas que no tengan una imagen cargada y cargarles el texto “Imagen faltante” en la columna de imagen.
-
--- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+-- BASE DE DATOS MUSIMUNDOS
+-- CONSULTAS SELECT Y GROUP BY
 -- Equipo 3 
 -- Alfredo Albornoz; Romina Rodriguez; Analia Mogliazza; Agustin Perera; Valentina Villamonte; Julian Delgado
 
@@ -200,6 +177,102 @@ inner join facturas;
 select distinct clientes.id, clientes.primer_nombre as nombre, facturas.id as facturaid 
 from clientes
 inner join facturas;
+
+
+-- ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-- Grupo 12
+-- Vistas - Parte I
+-- Clientes
+
+-- 1. Crear una vista con los siguientes datos de los clientes: ID, contacto, y el Fax. En caso de que no tenga Fax, colocar el teléfono, pero aclarándolo. Por ejemplo: “TEL: (01) 123-4567”.
+CREATE VIEW v_cliente_fax AS
+SELECT ClienteID, Contacto,
+CASE
+	WHEN Fax = '' THEN CONCAT('TEL: ', Telefono)
+    ELSE Fax
+END AS Fax_Tel
+FROM clientes;
+
+select * from v_cliente_fax;
+-- 2. Se necesita listar los números de teléfono de los clientes que no tengan fax. Hacerlo de dos formas distintas:
+-- a. Consultando la tabla de clientes.
+select Telefono, ClienteID
+from clientes
+where Fax = '';
+-- b. Consultando la vista de clientes.
+create view consulta as
+select Telefono, ClienteID
+from clientes
+where Fax = '';
+
+select * from consulta;
+
+-- Proveedores
+
+-- 1. Crear una vista con los siguientes datos de los proveedores: ID, contacto, compañía y dirección. Para la dirección tomar la dirección,ciudad, código postal y país.
+create view consulta2 as
+select ProveedorID, Contacto, Compania, concat(Direccion, ' ', Ciudad, ' ', CodigoPostal, ' ', Pais) 
+as DireccionCompleta
+from proveedores;
+
+select * from consulta2;
+
+-- 2. Listar los proveedores que vivan en la calle Americanas en Brasil. Hacerlo de dos formas distintas:
+-- a. Consultando la tabla de proveedores.
+select *
+from proveedores
+where Direccion like '%Americanas%'
+and Pais like 'Brazil';
+-- b. Consultando la vista de proveedores.
+create view consulta3 as
+select *
+from proveedores
+where Direccion like '%Americanas%'
+and Pais like 'Brazil';
+
+select * from consulta3;
+
+
+-- Vistas - Parte II
+-- 1. Crear una vista de productos que se usará para control de stock. Incluir el ID y nombre del producto, el precio unitario redondeado sin decimales, las unidades en stock y las unidades pedidas. 
+-- Incluir además una nueva columna PRIORIDAD con los siguientes valores:
+-- ■ BAJA: si las unidades pedidas son cero.
+-- ■ MEDIA: si las unidades pedidas son menores que las unidades en stock.
+-- ■ URGENTE: si las unidades pedidas no duplican el número de unidades.
+-- ■ SUPER URGENTE: si las unidades pedidas duplican el número de unidades en caso contrario.
+
+create view VistaControlDeStock as
+select ProductoID, ProductoNombre, format(PrecioUnitario,0) as costo, UnidadesStock as Stock, UnidadesPedidas as Pedido,
+case
+	when UnidadesPedidas = 0 then 'baja'
+    when UnidadesPedidas < UnidadesStock then 'media'
+    when UnidadesPedidas < UnidadesStock*2 then 'urgente'
+    when UnidadesPedidas*2 >= UnidadesStock then 'superurgente'
+end as Prioridad
+from productos;
+
+select * from VistaControlDeStock;
+
+-- 2. Se necesita un reporte de productos para identificar problemas de stock. Para cada prioridad indicar cuántos productos hay y su precio promedio.
+-- No incluir las prioridades para las que haya menos de 5 productos.
+
+
+
+
+-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-- 14 - DML- queries agregadas 
+-- Consultas BASE DE DATOS MOVIES
+-- Join
+-- 1. Utilizando la base de datos de movies, queremos conocer, por un lado, los
+-- títulos y el nombre del género de todas las series de la base de datos.
+-- 2. Por otro, necesitamos listar los títulos de los episodios junto con el nombre y
+-- apellido de los actores que trabajan en cada uno de ellos.
+-- 3. Para nuestro próximo desafío, necesitamos obtener a todos los actores o
+-- actrices (mostrar nombre y apellido) que han trabajado en cualquier película
+-- de la saga de La Guerra de las galaxias.
+-- 4. Crear un listado a partir de la tabla de películas, mostrar un reporte de la
+-- cantidad de películas por nombre de género.
+
 
 
 
