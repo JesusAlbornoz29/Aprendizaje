@@ -273,6 +273,107 @@ select * from VistaControlDeStock;
 -- 4. Crear un listado a partir de la tabla de películas, mostrar un reporte de la
 -- cantidad de películas por nombre de género.
 
+-- //// Ejercicios con Base de datos la_aprobacion
+
+-- Consigna - CheckPoint II
+-- 1. Listar todos los huéspedes cuyo nombre comience con la letra "S". Se debe mostrar id como "Número de huésped", apellido y nombre.
+select id as numero_de_huesped, apellido,nombre from huesped where nombre like 'S%';
+-- 2. Mostrar el número de legajo del empleado con domicilio "Av. Rosalind Franklin 600".
+select legajo from empleado where domicilio = 'Av. Rosalind Franklin 600';
+-- 3. Se requiere saber cuál es el mayor importe registrado en las reservas.
+select importe from reserva order by importe asc limit 1;
+-- 4. Listar las reservas realizadas con números 15, 19, 21, 35.
+select * from reserva where id='15' or id='19' or id='21' or id='35';
+-- 5. Calcular el importe total recaudado para la habitación número 40. 
+-- El reporte debe tener dos columnas denominadas "Número de habitación" y el "Importe Total".
+select habitacion_numero as numero_de_habitación, sum(importe) as Importe_total from checkin where habitacion_numero = 40;
+-- 6. Listar de manera ordenada (fecha de nacimiento), los empleados que no pertenezcan al sector 3 y que la fecha de nacimiento sea mayor que 3/9/1989 o igual a 7/11/1986.
+select * from empleado where sector_id!=3 and fecha_nacimiento>'1989-09-03' or fecha_nacimiento='1986-11-07' order by fecha_nacimiento;
+-- 7. Listar los importes de las reservas con valor entre $10499,50 a $12000,00
+-- (ordenarlos por el importe de mayor a menor).
+select importe from reserva where importe between 10499.50 and 12000.00 order by importe desc;
+-- 8. Mostrar el quinto importe del check-in realizado con menor valor.
+select id, importe from checkin order by importe, id limit 1 offset 4;
+-- 9. Mostrar el check-in con mayor importe. Este reporte debe contener el número
+-- del check-in, fecha de entrada y el importe.
+select id, fecha_entrada, max(importe) as importe from checkin;
+-- 10. Mostrar las diez reservas con menor importe. Este reporte debe contener el
+-- número de reserva, importe y el número del servicio.
+select id, importe, servicio_extra_id from reserva order by importe, id limit 10;
+-- 11. Listar las reservas registradas entre 14/07/21 al 15/08/21 (ordenarlos por fecha)
+select * from reserva where fecha between '2021-07-14' and '2021-08-15' order by fecha;
+-- 12. Listar en forma ordenada los check-in que tengan un importe superior o igual a
+-- $34125,00 y con fecha de salida inferior a 26/6/2020.
+select * from checkin where importe>=34125 and fecha_salida<'2020-06-26' order by importe;
+-- 13. Listar todos los empleados cuyo nombre termine con los caracteres "ia". Se debe
+-- mostrar el legajo, apellido, nombre y teléfono móvil.
+select legajo, apellido, nombre, telefono_movil from empleado where nombre like '%ia';
+-- 14. Se desea conocer cuál es el importe promedio de las reservas que se hayan
+-- pagado en efectivo.
+select avg(importe) from reserva where forma_pago_id=1;
+-- 15. Mostrar el tercer check-in con mayor importe pagado con tarjeta de crédito.
+select * from checkin where forma_pago_id=3 order by importe desc limit 1 offset 2;
+-- 16. Calcular la cantidad de check-in que tiene la habitación número siete. El reporte
+-- debe tener dos columnas denominadas "Habitación" y el "Cantidad".
+select habitacion_numero as habitacion, count(*) as cantidad from checkin where habitacion_numero=7;
+-- 17. Mostrar todos los domicilios de los huéspedes que contengan una palabra de cinco caracteres
+-- pero el tercer carácter debe ser igual a "n".
+select domicilio from huesped where domicilio like'__n__';
+-- 18. Modificar el tipo de decoración "italiana" por "romana"
+update decoracion set nombre='Romana' where nombre ='Italiana';
+-- 19. Agregar al huésped  Ricardo Omar cuyo pasaporte es 28001555 y
+-- fecha de nacimiento 5/1/1980, domiciliado en calle Av. Sarmiento 752 este -
+-- Argentina, teléfono móvil +542645667714 y el correo electrónico es
+-- pal1980sj@gmail.com.
+insert into huesped (id, apellido, nombre, pasaporte, fecha_nacimiento, domicilio, pais_id, telefono_movil, email)
+values (default, 'Palermo Díaz', 'Ricardo Omar', 28001555, '1980-01-05', 
+'Av. Sarmiento 752 este', 1, '+542645667714', 'pal1980sj@gmail.com');
+select * from huesped where apellido like '%lerm%';
+-- 20. Eliminar el registro del servicio básico número 5
+delete from servicio_basico where nombre =5;
+
+-- //////////////////////////////////////////////////////////////BASE DE DATOS SEKILA////////////////////////////////////////////////////////////////////////////
+-- ////////// REPORTES JOINS
+-- 1. Obtener los artistas que han actuado en una o mas peliculas.
+select  * from actor inner join film_actor on actor.actor_id = film_actor.film_id;
+-- 2. Obtener las peliculas donde han participado mas de un artista segun nuestra base de datos.
+select film.film_id, count(film_actor.actor_id) as cantidad_de_actores 
+from film 
+inner join film_actor on film.film_id = film_actor.film_id 
+group by film.film_id
+having cantidad_de_actores > 1;
+-- 3. Obtener aquellos artistas que han actuado en alguna pelicula, incluso aquellos que aun no lo han hecho, segun nuestra base de datos. ///// DUDA ////
+select * 
+from actor 
+left join film_actor 
+on actor.actor_id = film_actor.actor_id; 
+-- 4. Obtener las peliculas que no se le han asignado artistas en nuestra base de datos.
+select *
+from film
+left join film_actor 
+on film.film_id = film_actor.film_id 
+where film_actor.film_id is null;
+-- 5. Obtener aquellos artistas que no han actuado en alguna pelicula, segun nuestra base de datos. ///// DUDA ////
+select actor.actor_id, actor.first_name as nombre , actor.last_name as apellido, film_actor.film_id
+from actor
+left join film_actor
+on film_actor.actor_id = actor.actor_id
+where film_actor.film_id is null;
+-- 6. Obtener aquellos artistas que han actuado en dos o mas peliculas segun nuestra base de datos.
+-- 7. Obtener aquellas peliculas que tengan asignado uno o mas artistas, incluso aquellas que aun no le han asignado un artista en nuestra base de datos.
+-- //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+-- //REPORTES 1
+-- 1. Obtener el nombre y apellido de los primeros 5 actores disponibles. Utilizar alias para mostrar los nombres de las columnas en espa;ol.
+-- 2. Obtener un listado que incluya nombre, apellido y correo electronico de los clientes (customers) inactivos. Utilizar alias para mostrar los nombres de las columnas en espa;ol.
+-- 3. Obtener un listado de films incluyendo titulo, a;o y descripcion de los films que tienen un rental_duration mayor a cinco. Ordenar por erntal_duration de mayor a menor. Utilizar alias para mostrar los nombres de las columnas en espa;ol.
+-- 4. Obtener un listado de alquileres (rentals) que se hicieron durante el mes de mayo de 2005. incluir en el resultado las columnas disponibles. 
+-- //REPORTES 2 Sumamos complejidad
+-- 1. Obtener la cantidad TOTAL de alquileres (rentals). Utiliza un alias para mostrarlo en una columna llamada "Cantidad".
+-- 2. Obtener la suma TOTAL de todos los pagos (payments). Utilizar un alias para mostrarlo en una columna llamada "total", junto a una columna con la cantidad de alquileres con el alias "Cantidad" y una columna que indique el "Importe promedio" por alquiler.
+-- 3. Genere un reporte que responda la pregunta "Cuales son los diez clientes que mas dinero gastan y en cuantos alquileres lo hacen?"
+-- 4. Genere un reporte que indique: ID de cliente, cantidad de alquileres y monto total para todos los clientes que hayan gastado mas de 150 dolares en alquileres.
+-- 5. Genere u nreporte que muestre por mes de alquiler (rental_date de tabla rental), la cantidad de alquileres y la suma total pagada (amount de tabla paymen) para el a;o de alquiler 2005 (rental_date de tabla rental).
+-- 6. Generar un reporte que responda la pregunta: "Cuales son los 5 inventarios mas alquilados?" (columna inventory_id en la tabla rental). Para cada una de ellas indicar la cantidad de alquileres.
 
 
 
