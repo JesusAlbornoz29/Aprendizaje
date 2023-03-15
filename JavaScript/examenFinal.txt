@@ -1,0 +1,124 @@
+// Alfredo Albornoz Camada 14
+
+// Ejercicio 1 
+// Dado el siguiente arreglo de objetos: 
+
+let cuadros = [
+    {
+        nombre : "Mona Lisa",
+        creador : "Leonardo Da Vinci",
+        creacion : 1503
+    },
+    {
+        nombre : "La ultima cena",
+        creador : "Leonardo Da Vinci",
+        creacion : 1495
+    },
+    {
+        nombre : "La noche estrellada",
+        creador : "Vincent van Gogh",
+        creacion : 1889
+    },
+    {
+        nombre : "El grito",
+        creador : "Edvard Munch",
+        creacion : 1893
+    },
+    {
+        nombre : "Trigal con cuervos",
+        creador : "Vincent van Gogh",
+        creacion : 1890
+    },
+    {
+        nombre : "Maria Magdalena",
+        creador : "Leonardo Da Vinci",
+        creacion : 1495
+    }
+]
+
+// Realizar una función que reciba por parámetro dicho arreglo y retorne un nuevo array con los objetos cuyo año de creación sea mayor a 1800.
+
+
+function matrizNueva (array) {
+    const matriz = [];
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].creacion > 1800) {
+            matriz.push(array[i])
+        }
+        
+    }
+    return matriz
+}
+
+console.log('//////////////// Ejercicio 1 /////////////////')
+let res = matrizNueva(cuadros)
+console.log(res)
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+// Ejercicio 2 
+// Realizar una función que reciba por parámetro al arreglo del ejercicio 1 y mediante el algoritmo Bubble Sort ordene a cada objeto de forma alfabética (de la A a la Z) según el nombre de cada cuadro. 
+
+const ordenar = array => {
+    let aux = undefined
+    for (let i = 0; i < array.length; i++) {
+        for (let j = 0; j < array.length - 1; j++) {
+            if( array[j].nombre > array[j + 1].nombre ) {
+                aux = array[j].nombre
+                array[j].nombre = array[j + 1].nombre 
+                array[j + 1].nombre = aux
+            }
+        }
+    }
+}
+
+console.log('//////////////// Ejercicio 2 /////////////////')
+ordenar (cuadros);
+console.log(cuadros);
+
+
+
+////////////////////////////////////////////////////////////////////////////////////
+
+/// Ejercicio 3
+// Dada la siguiente matriz: 
+
+let matriz = [
+    [1,2,3,4,5],
+    [6,7,8,9,10],
+    [11,12,13,14,15],
+    [16,17,18,19,20],
+    [21,22,23,24,25]
+]
+
+
+// A) Realizar una función que retorne la suma entre todos los elementos de la fila 0.
+
+function sumarElementos (matriz) {
+    let suma = 0 
+    for (let i = 0; i < matriz.length; i++) {
+        suma += i 
+    }
+    return suma
+}
+console.log('//////////////// Ejercicio 3 - A /////////////////')
+let resultado = sumarElementos(matriz)
+console.log(resultado)
+
+// B) Realizar una función que retorne la multiplicación de todos los elementos que sean múltiplos de 3.
+
+const multiplicarElementos = mat => {
+    let acc = matriz[0][0]
+    for (let i = 0; i < mat.length; i++) {
+        for (let j = 0; j < mat[i].length; j++) {    
+            if( matriz[i][j] % 3 == 0) {
+                acc *= matriz[i][j]
+            }
+        } 
+    } 
+    return acc
+}
+
+console.log('//////////////// Ejercicio 3 - B ///////////////// ')
+let resultadoMatriz = multiplicarElementos(matriz)
+console.log(resultadoMatriz)
