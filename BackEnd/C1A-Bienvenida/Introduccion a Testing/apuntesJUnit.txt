@@ -1,0 +1,66 @@
+import org.junit.jupiter.api,*; // JUnit nos da la posiblidad de generalizar lo que sucede en cada Test
+
+public class CicloVidaTest {
+	@BeforeAll // Se va a ejecutar solo una vez antes de cada test unitario y es un buen momento para inicializar variables
+	static void initAll() {
+	}
+	
+	@BeforeEach // Se va a ejecutar antes de cada test y tambien nos sirve para inicializar variables comunes a todos los test
+	void init() {
+	}
+	
+	@Test // Sirve para generar un testo unitario
+	void regular_testi_method() {
+	...
+	}
+	
+	@Test
+	@Disabled("este test no se ejecuta")
+	void skippedTest() {
+		// not executed
+		}
+		
+	@AfterEach // Corre despues de cada test
+	void tearDown() {
+	}
+		
+	@AfterAll // Corre despues de que terminen todos los test unitarios
+	static void tearDownAll() {
+	}
+	
+	//////////////
+	Ademas de las anotaciones contamos con algunas funcionalidades particulares justamente para realizar validaciones dentro del test!!!
+		ej:
+		
+		@Test
+		void standardAssertions() {
+			assertEquals(2,2); // Funciona para comparar si dos resultados son iguales
+			assertEquals(4,4, "Ahora el mensaje opcional de la asercion es el ultimo parametro.");
+			
+			assertTrue(edad == 2, "Los numeros son iguales?");} // 
+			
+			
+		@Rule public ExpectedException thrown=ExpectedException.none();
+		
+		@Test
+		public void myTest() {
+			throw.expect( Exception.class );  // Nos aseguramos que recibimos una exepcion por ejemplo la divicion entre 0 deberia devolver un error
+			throw.expectMessage("Init Gold must be >= 0");
+			
+			rodgers = new Pirate ("Dread Pirate Rodgers" , -100);
+		}
+	
+	
+	
+	/////////////////////////////////////////////////
+	- Los TestUnitarios son aplicables a todo el codigo y mientras mas tengamos mas cubiertas vamos a tener nuestra aplicacion
+	
+	- Con los test de integracion nos aseguramos que los diferentes flujos del codigo funcionan correctamente por ejemplo:
+	podemos tener un Modulo de Usuarios en el que podemos : Crear;Eliminar;Actualizar o Buscar un Usuario. Podemos hacer un TestUnitario por C/u
+y armar una swit con todos los test unitarios para corrobar que el modulo ususario funciona correctamente como un todo
+
+	- Los Test Unitarios y de Integracion: 
+	* Son importantes cuando necesitamos saber si nuestro sistema cumple con las especificaciones.
+	* Mas importante aun cuando necesitamos actualizar una parte del codigo o mejorar la performance. 
+	
+	** Importante estar atento a un buen dise;o de test para no tener falsos positivos

@@ -1,0 +1,33 @@
+import org.junit.jupiter.api,*; // JUnit nos da la posiblidad de generalizar lo que sucede en cada Test
+
+public class CicloVidaTest {
+	@BeforeAll // Se va a ejecutar solo una vez antes de cada test unitario y es un buen momento para inicializar variables
+	static void initAll() {
+	}
+	
+	@BeforeEach // Se va a ejecutar antes de cada test y tambien nos sirve para inicializar variables comunes a todos los test
+	void init() {
+	}
+	
+	@Test // Sirve para generar un testo unitario
+	void regular_testi_method() {
+	...
+	}
+	
+	@Test
+	@Disabled("este test no se ejecuta")
+	void skippedTest() {
+		// not executed
+		}
+		
+	@AfterEach // Corre despues de cada test
+	void tearDown() {
+	}
+		
+	@AfterAll // Corre despues de que terminen todos los test unitarios
+	static void tearDownAll() {
+	}
+	
+	
+	
+	
